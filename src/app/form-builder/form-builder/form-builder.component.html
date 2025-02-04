@@ -1,0 +1,30 @@
+<div class="form-container">
+    <mat-card appearance="outlined">
+        <mat-card-content>
+            <h3 class="form-title">Dynamic Form Builder</h3>
+
+            <!-- Loop through fields and render them -->
+            <div class="form-fields">
+                <div *ngFor="let field of fields" class="form-field-wrapper">
+                    <app-form-field [fieldType]="field.type" [formGroup]="form" [fieldName]="field.name"
+                        (removeField)="removeField(field.name)"></app-form-field>
+                </div>
+            </div>
+
+            <!-- Buttons to add more fields -->
+            <div class="add-buttons">
+                <button mat-button class="matbutton" (click)="addField('text')">Add Text Field</button>
+                <button mat-button class="matbutton" (click)="addField('textarea')">Add Textarea</button>
+                <button mat-button class="matbutton" (click)="addField('dropdown')">Add Dropdown</button>
+                <button mat-button class="matbutton" (click)="addField('checkbox')">Add Checkbox</button>
+                <button mat-button class="matbutton" (click)="addField('radio')">Add Radio Button</button>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="submit-button">
+                <button mat-raised-button (click)="onSubmit()">Submit</button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+</div>

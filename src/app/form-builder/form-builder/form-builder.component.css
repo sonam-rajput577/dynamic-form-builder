@@ -1,0 +1,63 @@
+.form-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .form-title {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #1b4585;
+  }
+  
+  .form-fields {
+    display: grid;
+    gap: 20px;
+  }
+  
+  .form-field-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .add-buttons button {
+    margin: 5px;
+  }
+  ::ng-deep .matbutton {
+    background: #70e8f5 !important;
+}
+  .submit-button {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .submit-button button {
+    width: 250px;
+    background: #2c43ad;
+    color: #fff;
+    font-size: 18px;
+  }
+  
+  @media (max-width: 600px) {
+    .form-title {
+      font-size: 1.2em;
+    }
+  
+    .form-fields {
+      grid-template-columns: 1fr;
+    }
+  
+    .add-buttons {
+      justify-content: flex-start;
+    }
+  }
+  

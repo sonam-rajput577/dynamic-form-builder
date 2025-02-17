@@ -1,42 +1,32 @@
 <div class="form-field">
   <!-- Render input field based on type -->
-  <div *ngIf="fieldType === 'text'">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Text</mat-label>
-      <input matInput [formControl]="formControl" />
-      <mat-error *ngIf="formControl.hasError('required')">This field is required</mat-error>
-    </mat-form-field>
-  </div>
+  <mat-form-field appearance="fill" class="full-width" *ngIf="field.type === 'text'">
+    <mat-label>{{ field.label }}</mat-label>
+    <input matInput [formControl]="formControl" [placeholder]="field.placeholder" />
+    <mat-error *ngIf="formControl.hasError('required')">This field is required</mat-error>
+  </mat-form-field>
 
-  <div *ngIf="fieldType === 'textarea'">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Textarea</mat-label>
-      <textarea matInput [formControl]="formControl"></textarea>
-      <mat-error *ngIf="formControl.hasError('required')">This field is required</mat-error>
-    </mat-form-field>
-  </div>
+  <mat-form-field appearance="fill" class="full-width" *ngIf="field.type === 'textarea'">
+    <mat-label>{{ field.label }}</mat-label>
+    <textarea matInput [formControl]="formControl" [placeholder]="field.placeholder"></textarea>
+    <mat-error *ngIf="formControl.hasError('required')">This field is required</mat-error>
+  </mat-form-field>
 
-  <div *ngIf="fieldType === 'dropdown'">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Dropdown</mat-label>
-      <mat-select [formControl]="formControl">
-        <mat-option value="option1">Option 1</mat-option>
-        <mat-option value="option2">Option 2</mat-option>
-      </mat-select>
-      <mat-error *ngIf="formControl.hasError('required')">This field is required</mat-error>
-    </mat-form-field>
-  </div>
+  <mat-form-field appearance="fill" class="full-width" *ngIf="field.type === 'dropdown'">
+    <mat-label>{{ field.label }}</mat-label>
+    <mat-select [formControl]="formControl">
+      <mat-option value="option1">Option 1</mat-option>
+      <mat-option value="option2">Option 2</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formControl.hasError('required')">This field is required</mat-error>
+  </mat-form-field>
 
-  <div *ngIf="fieldType === 'checkbox'">
-    <mat-checkbox [formControl]="formControl">Checkbox</mat-checkbox>
-  </div>
+  <mat-checkbox *ngIf="field.type === 'checkbox'" [formControl]="formControl">{{ field.label }}</mat-checkbox>
 
-  <div *ngIf="fieldType === 'radio'">
-    <mat-radio-group [formControl]="formControl">
-      <mat-radio-button value="yes">Yes</mat-radio-button>
-      <mat-radio-button value="no">No</mat-radio-button>
-    </mat-radio-group>
-  </div>
+  <mat-radio-group *ngIf="field.type === 'radio'" [formControl]="formControl">
+    <mat-radio-button value="yes">Yes</mat-radio-button>
+    <mat-radio-button value="no">No</mat-radio-button>
+  </mat-radio-group>
 
   <!-- Remove button -->
   <div class="remove-button">

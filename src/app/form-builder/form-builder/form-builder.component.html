@@ -6,7 +6,7 @@
             <!-- Loop through fields and render them -->
             <div class="form-fields">
                 <div *ngFor="let field of fields" class="form-field-wrapper">
-                    <app-form-field [fieldType]="field.type" [formGroup]="form" [fieldName]="field.name"
+                    <app-form-field [field]="field" [formGroup]="form"
                         (removeField)="removeField(field.name)"></app-form-field>
                 </div>
             </div>
@@ -26,5 +26,4 @@
             </div>
         </mat-card-content>
     </mat-card>
-
 </div>

@@ -5,44 +5,62 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class FormFieldService { 
-  private formSubject = new BehaviorSubject<FormGroup>(this.fb.group({}));
-  public form$ = this.formSubject.asObservable();
+export class FormFieldService {
+  private form: FormGroup;
+  private fields: Array<{ 
+    name: string; 
+    type: string; 
+    label: string; 
+    placeholder: string; 
+    validations?: any; 
+  }> = [];
 
-  constructor(private fb: FormBuilder) {}
+  private formSubject = new BehaviorSubject<FormGroup>(this.fb.group({}));
+  private fieldsSubject = new BehaviorSubject<Array<any>>([]);
+
+  form$ = this.formSubject.asObservable();
+  fields$ = this.fieldsSubject.asObservable();
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({});
+  }
 
   // Get the current form group
   getFormGroup(): FormGroup {
-    return this.formSubject.value;
+    return this.form;
   }
 
-  // Add a new field to the form group
-  addField(fieldName: string, fieldType: string): void {
-    const form = this.getFormGroup();
-    const formControl = new FormControl('', Validators.required);
+  // Add a new field with customization options
+  addField(field: { name: string; type: string; label: string; placeholder: string; validations?: any }): void {
+    this.fields.push(field);
 
-    // Add the form control dynamically to the form group
-    form.addControl(fieldName, formControl);
+    const validators = [];
+    if (field.validations?.required) {
+      validators.push(Validators.required);
+    }
 
-    // Update the BehaviorSubject
-    this.formSubject.next(form);
+    this.form.addControl(field.name, new FormControl('', validators));
+
+    // Notify subscribers about the changes
+    this.formSubject.next(this.form);
+    this.fieldsSubject.next([...this.fields]);
   }
 
-  // Remove a field from the form group
+  // Remove a field dynamically
   removeField(fieldName: string): void {
-    const form = this.getFormGroup();
-    form.removeControl(fieldName);
+    this.fields = this.fields.filter(field => field.name !== fieldName);
+    this.form.removeControl(fieldName);
 
-    // Update the BehaviorSubject
-    this.formSubject.next(form);
+    // Notify subscribers about the changes
+    this.formSubject.next(this.form);
+    this.fieldsSubject.next([...this.fields]);
   }
 
-  // Submit the form data
+  // Submit the form and reset if valid
   submitForm(): void {
-    const form = this.getFormGroup();
-    if (form.valid) {
-      console.log('Form submitted:', form.value); // Log form data to the console
-      form.reset(); // Reset the form after submission
+    if (this.form.valid) {
+      console.log('Form submitted:', this.form.value);
+      this.form.reset();
     } else {
       console.log('Form is invalid');
     }

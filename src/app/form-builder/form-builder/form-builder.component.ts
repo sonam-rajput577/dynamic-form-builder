@@ -9,34 +9,36 @@ import { FormFieldService } from '../form-field.service';
 })
 export class FormBuilderComponent implements OnInit {
   form: FormGroup = this.fbService.getFormGroup();
-  fields: Array<{ type: string; name: string }> = [];
+  fields: Array<{ type: string; name: string; label: string; placeholder: string; validations?: any }> = [];
   fieldCount: number = 0;
 
   constructor(private fbService: FormFieldService) {}
 
   ngOnInit(): void {
-    // Initialize with default fields
-    this.addField('text');
-    this.addField('textarea');
-    this.addField('dropdown');
-    this.addField('checkbox');
-    this.addField('radio');
-
     this.fbService.form$.subscribe((form) => {
       this.form = form;
     });
+
+    this.fbService.fields$.subscribe((fields) => {
+      this.fields = fields;
+    });
   }
 
-  // Add a new field
+  // Add a new field with validation rules
   addField(fieldType: string): void {
     const fieldName = `field${this.fieldCount++}`;
-    this.fields.push({ type: fieldType, name: fieldName });
-    this.fbService.addField(fieldName, fieldType);
+    const newField = { 
+      name: fieldName, 
+      type: fieldType, 
+      label: `Enter ${fieldType}`, 
+      placeholder: `Type here...`, 
+      validations: { required: true }  // Applying required validation
+    };
+    this.fbService.addField(newField);
   }
 
   // Remove a field
   removeField(fieldName: string): void {
-    this.fields = this.fields.filter((field) => field.name !== fieldName);
     this.fbService.removeField(fieldName);
   }
 
